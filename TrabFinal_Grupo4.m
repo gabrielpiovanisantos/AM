@@ -16,5 +16,5 @@ clear year1 year2 year3 year4 year5;
 rotulos = conjuntoDados(:, 65);
 conjuntoDados(:, 65) = [];
 
-[conjuntoDados, conjuntoDados2] = preprocessaDados(conjuntoDados);
+[conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
 
