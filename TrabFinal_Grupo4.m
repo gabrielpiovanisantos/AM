@@ -16,5 +16,6 @@ clear year1 year2 year3 year4 year5;
 rotulos = conjuntoDados(:, 65);
 conjuntoDados(:, 65) = [];
 
-[conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
-
+if(~exist('conjuntoDados.mat', 'file') && ~exist('conjuntoAposNorm.mat', 'file'))
+    [conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
+end
