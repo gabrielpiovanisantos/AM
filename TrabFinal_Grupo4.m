@@ -17,4 +17,4 @@ rotulos = conjuntoDados(:, 65);
 conjuntoDados(:, 65) = [];
 
 [conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
-
+%[custoLogistico, gradienteLogistico] = custoRegLog(theta,conjunto,conjuntoDados, rotulos);
