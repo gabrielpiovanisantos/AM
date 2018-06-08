@@ -16,5 +16,11 @@ clear year1 year2 year3 year4 year5;
 rotulos = conjuntoDados(:, 65);
 conjuntoDados(:, 65) = [];
 
+<<<<<<< HEAD
 [conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
 %[custoLogistico, gradienteLogistico] = custoRegLog(theta,conjunto,conjuntoDados, rotulos);
+=======
+if(~exist('conjuntoDados.mat', 'file') && ~exist('conjuntoAposNorm.mat', 'file'))
+    [conjuntoDados, conjuntoAposNorm] = preprocessaDados(conjuntoDados);
+end
+>>>>>>> 6eef215f8664b644544e84c1b0caabdf7174e871

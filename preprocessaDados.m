@@ -57,15 +57,21 @@ function [D, D2] = preprocessaDados(D)
         conjuntoTreino = [ones(size(conjuntoTreino, 1), 1), conjuntoTreino];
         theta = zeros(1, size(conjuntoTreino, 2));
         
-        % Computo o custo para popular o valor inicial de theta.
-        computarCustoMulti(conjuntoTreino, rotuloTreino, theta);
+        % Computo o custo para popular o valor inicial de theta. Caso ja
+        % tenha computado alguma vez passada, carrega ao inves de computar
+        % denovo.
+        if(~exist(['theta_col', num2str(i), '.mat'], 'file'))
+            computarCustoMulti(conjuntoTreino, rotuloTreino, theta);
+            % Numero de iteracoes e alpha para o gradiente descendente. 
+            iteracoes = 10000;
+            alpha = 0.01;
+            [theta, ~] = gradienteDescenteMulti(conjuntoTreino, ...
+                rotuloTreino, theta, alpha, iteracoes);
+            save(['theta_col', num2str(i), '.mat'], 'theta');
+        else
+            load(['theta_col', num2str(i), '.mat']);
+        end
         
-        % Numero de iteracoes e alpha para o gradiente descendente. 
-        iteracoes = 1000000;
-        alpha = 0.01;
-        [theta, ~] = gradienteDescenteMulti(conjuntoTreino, ...
-            rotuloTreino, theta, alpha, iteracoes);
-        save(['theta_col', num2str(i), '.mat'], 'theta');
         % Agora ja possuo os valores de theta para predizer os atributos
         % faltantes no conjunto de teste.
         for j = 1:size(indTeste, 1)
