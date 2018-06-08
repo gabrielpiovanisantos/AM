@@ -22,7 +22,7 @@ D = zeros(m,1); % Inicializa a matriz de distancias D
 % Para cada elemento de X, calculo a distancia Euclidiana de X(i) a x.
 for i = 1:m
     % A diferenca entre x e X.
-    d = x(1, :) - X(1, :);
+    d = x(1, :) - X(i, :);
     % Calculo a distancia Euclidiana e armazeno em D(i).
     D(i) = sqrt(sum(d .^ 2));
 end
