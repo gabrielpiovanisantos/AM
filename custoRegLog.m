@@ -1,4 +1,4 @@
-function [J, grad] = custoRegLog(theta, X, y)
+function [J, grad] = custoRegLog(theta, X, y, lambda)
 %FUNCAOCUSTO Calcula o custo da regressao logistica
 %   J = FUNCAOCUSTO(X, y, theta) calcula o custo de usar theta como 
 %   parametro da regressao logistica para ajustar os dados de X e y
