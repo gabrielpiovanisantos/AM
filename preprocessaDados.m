@@ -62,7 +62,7 @@ function [D, D2] = preprocessaDados(D)
         % denovo.
         computarCustoMulti(conjuntoTreino, rotuloTreino, theta);
         % Numero de iteracoes e alpha para o gradiente descendente. 
-        iteracoes = 1000;
+        iteracoes = 10000;
         alpha = 0.01;
         [theta, ~] = gradienteDescenteMulti(conjuntoTreino, ...
         rotuloTreino, theta, alpha, iteracoes);

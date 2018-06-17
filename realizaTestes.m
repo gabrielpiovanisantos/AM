@@ -26,25 +26,93 @@ function [knnsTeste, resultado, resultadoCross] = realizaTestes(conjuntoDados, r
     resultado = cell(4, 1);
     resultadoCross = cell(4, 1);
     
-    % Reparto meu conjunto de dados em suas classes.
-    classeZero = conjuntoDados(rotulos == 0, :);
-    classeUm = conjuntoDados(rotulos == 1, :);
-    % Valor utilizado para dividir o conjunto de dados dada a porcentagem.
-    divUm = int32(floor(pTreino * size(classeUm, 1)));
-    divZero = int32(floor(pTreino * size(classeZero, 1)));
-    % Divido entao o conjunto de dados em treino e teste.
-    conjuntoTreinoUm = classeUm(1:divUm, :);
-    conjuntoTreinoZero = classeZero(1:divZero, :);
-    conjuntoTesteUm = classeUm((divUm + 1):end, :);
-    conjuntoTesteZero = classeZero((divZero + 1):end, :);
+    % Concateno os rotulos com suas amostras temporariamente para realizar
+    % a divisao.
+    conDadosCompleto = [conjuntoDados, rotulos];
+    % Como devo dividor os conjuntos de maneira a manter a proporcao de
+    % classes, para que nao se tenha amostras de apenas uma classe no
+    % conjunto, tenho que primeiro dividir o conjunto em suas classes.
+    conDadosCompletoZero = conDadosCompleto(conDadosCompleto(:, 65) == 0, :);
+    conDadosCompletoUm = conDadosCompleto(conDadosCompleto(:, 65) == 1, :);
+    % Agora divido esses subconjuntos em pTreino e restante.
+    divZero = divideMatriz(conDadosCompletoZero, [pTreino, (1 - pTreino)]);
+    divUm = divideMatriz(conDadosCompletoUm, [pTreino, (1 - pTreino)]);
+    % O meu conjunto de treino sera a concatenacao do primeiro indice de
+    % divZero e divUm, assim mantenho as proporcoes de classes.
+    conjuntoTreino = [divZero{1}; divUm{1}];
+    conjuntoTeste = [divZero{2}; divUm{2}];
+    % Extraio os rotulos dos conjuntos.
+    rotulosTreino = conjuntoTreino(:, 65);
+    conjuntoTreino(:, 65) = [];
+    rotulosTeste = conjuntoTeste(:, 65);
+    conjuntoTeste(:, 65) = [];
     
-    conjuntoTreino = [conjuntoTreinoUm; conjuntoTreinoZero];
-    rotulosTreino = [ones(size(conjuntoTreinoUm, 1), 1); zeros(size(conjuntoTreinoZero, 1), 1)];
-    conjuntoTeste = [conjuntoTesteUm; conjuntoTesteZero];
-    rotulosTeste = [ones(size(conjuntoTesteUm, 1), 1); zeros(size(conjuntoTesteZero, 1), 1)];
-    
-    fprintf('Tamanho do conjunto de treino: %d %d.\n', size(conjuntoTreino, 1));
-    fprintf('Tamanho do conjunto de teste: %d %d.\n', size(conjuntoTeste, 1));
+    fprintf('Tamanho do conjunto de treino: %d.\n', size(conjuntoTreino, 1));
+    fprintf('Tamanho do conjunto de teste: %d.\n', size(conjuntoTeste, 1));
     % Realizo o teste utilizando o KNN.
     [knnsTeste, ~] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, 0);
+    save(['knnsTesteConjuntoInicial_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsTeste');
+    
+    % Realizo os testes usando 60/20/20.
+    divZero = divideMatriz(conDadosCompletoZero, [.6 .2 .2]);
+    divUm = divideMatriz(conDadosCompletoUm, [.6 .2 .2]);
+    conjuntoTreino = [divZero{1}; divUm{1}];
+    conjuntoTeste = [divZero{2}; divUm{2}];
+    conjuntoVal = [divZero{3}; divUm{3}];
+    rotulosTreino = conjuntoTreino(:, 65);
+    conjuntoTreino(:, 65) = [];
+    rotulosTeste = conjuntoTeste(:, 65);
+    conjuntoTeste(:, 65) = [];
+    rotulosVal = conjuntoVal(:, 65);
+    conjuntoVal(:, 65) = [];
+    
+    fprintf('Tamanho do conjunto de treino: %d.\n', size(conjuntoTreino, 1));
+    fprintf('Tamanho do conjunto de teste: %d.\n', size(conjuntoTeste, 1));
+    fprintf('Tamanho do conjunto de validacao: %d.\n', size(conjuntoVal, 1));
+    
+    [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, conjuntoVal);
+    save(['knnsTesteConjunto_602020_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsTeste');
+    save(['knnsValConjunto_602020_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsVal');
+    
+    % Realizo os testes usando 40/20/40.
+    divZero = divideMatriz(conDadosCompletoZero, [.4 .2 .4]);
+    divUm = divideMatriz(conDadosCompletoUm, [.4 .2 .4]);
+    conjuntoTreino = [divZero{1}; divUm{1}];
+    conjuntoTeste = [divZero{2}; divUm{2}];
+    conjuntoVal = [divZero{3}; divUm{3}];
+    rotulosTreino = conjuntoTreino(:, 65);
+    conjuntoTreino(:, 65) = [];
+    rotulosTeste = conjuntoTeste(:, 65);
+    conjuntoTeste(:, 65) = [];
+    rotulosVal = conjuntoVal(:, 65);
+    conjuntoVal(:, 65) = [];
+    
+    fprintf('Tamanho do conjunto de treino: %d.\n', size(conjuntoTreino, 1));
+    fprintf('Tamanho do conjunto de teste: %d.\n', size(conjuntoTeste, 1));
+    fprintf('Tamanho do conjunto de validacao: %d.\n', size(conjuntoVal, 1));
+    
+    [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, conjuntoVal);
+    save(['knnsTesteConjunto_402040_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsTeste');
+    save(['knnsValConjunto_402040_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsVal');
+    
+    % Realizo os testes usando 20/20/60.
+    divZero = divideMatriz(conDadosCompletoZero, [.2 .2 .6]);
+    divUm = divideMatriz(conDadosCompletoUm, [.2 .2 .6]);
+    conjuntoTreino = [divZero{1}; divUm{1}];
+    conjuntoTeste = [divZero{2}; divUm{2}];
+    conjuntoVal = [divZero{3}; divUm{3}];
+    rotulosTreino = conjuntoTreino(:, 65);
+    conjuntoTreino(:, 65) = [];
+    rotulosTeste = conjuntoTeste(:, 65);
+    conjuntoTeste(:, 65) = [];
+    rotulosVal = conjuntoVal(:, 65);
+    conjuntoVal(:, 65) = [];
+    
+    fprintf('Tamanho do conjunto de treino: %d.\n', size(conjuntoTreino, 1));
+    fprintf('Tamanho do conjunto de teste: %d.\n', size(conjuntoTeste, 1));
+    fprintf('Tamanho do conjunto de validacao: %d.\n', size(conjuntoVal, 1));
+    
+    [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, conjuntoVal);
+    save(['knnsTesteConjunto_202060_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsTeste');
+    save(['knnsValConjunto_202060_', datestr(now, 'dd-mmm-yyyy-HH-MM-SS'), '.mat'], 'knnsVal');
 end

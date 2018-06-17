@@ -1,4 +1,4 @@
-clear; close all; clc;
+%clear; close all; clc;
 
 %year1 = readData('1year.arff');
 %year2 = readData('2year.arff');
@@ -21,7 +21,7 @@ year4rotulos = year4(:, 65);
 year4(:, 65) = [];
 year5rotulos = year5(:, 65);
 year5(:, 65) = [];
-
+ 
 disp('Processando conjunto ano 1.');
 [year1conjunto, year1AposNorm] = preprocessaDados(year1);
 disp('Processando conjunto ano 2.');
@@ -33,3 +33,8 @@ disp('Processando conjunto ano 4.');
 disp('Processando conjunto ano 5.');
 [year5conjunto, year5AposNorm] = preprocessaDados(year5);
 
+% realizaTestes(year1conjunto, year1rotulos, .7, 0);
+% realizaTestes(year2conjunto, year2rotulos, .7, 0);
+% realizaTestes(year3conjunto, year3rotulos, .7, 0);
+% realizaTestes(year4conjunto, year4rotulos, .7, 0);
+% realizaTestes(year5conjunto, year5rotulos, .7, 0);

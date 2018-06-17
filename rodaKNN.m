@@ -6,7 +6,7 @@
 function [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, conjuntoVal)
     testes = [1 3 5 7 9 11 13 15 17 19 21 23 25]; 
     knnsTeste = cell(length(testes));
-    if(length(conjuntoTeste) == 1)
+    if(length(conjuntoVal) == 1)
         knnsVal = 0;
     else
         knnsVal = cell(length(testes));
@@ -16,10 +16,10 @@ function [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoT
     disp('Inicio da classificacao usando KNN no conjunto de testes.')
     for i = 1:length(testes)
         fprintf('Inicio do calculo com K = %d.\n', testes(i));
-        classes = zeros(length(conjuntoTreino), 1);
-        indices = zeros(length(conjuntoTreino), testes(i));
+        classes = zeros(length(conjuntoTeste), 1);
+        indices = zeros(length(conjuntoTeste), testes(i));
         tic;
-        for j = 1:length(conjuntoTreino)
+        for j = 1:length(conjuntoTeste)
             [classe, indice] = knn(conjuntoTeste(j, :), conjuntoTreino, rotulosTreino, testes(i));
             classes(j, 1) = classe;
             indices(j, :) = indice;
@@ -30,15 +30,15 @@ function [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoT
         count = count + 1;
     end
     % Se for fornecido, faz os testes com o conjunto de validacao.
-    if(length(conjuntoTeste) == 1)
+    if(length(conjuntoVal) > 1)
         count = 1;
-        disp('Inicio da classificacao usando KNN no conjunto de testes.')
+        disp('Inicio da classificacao usando KNN no conjunto de validacao.')
         for i = 1:length(testes)
             fprintf('Inicio do calculo com K = %d.\n', testes(i));
-            classes = zeros(length(conjuntoTreino), 1);
-            indices = zeros(length(conjuntoTreino), testes(i));
+            classes = zeros(length(conjuntoVal), 1);
+            indices = zeros(length(conjuntoVal), testes(i));
             tic;
-            for j = 1:length(conjuntoTreino)
+            for j = 1:length(conjuntoVal)
                 [classe, indice] = knn(conjuntoVal(j, :), conjuntoTreino, rotulosTreino, testes(i));
                 classes(j, 1) = classe;
                 indices(j, :) = indice;
