@@ -1,11 +1,11 @@
-n_obs  = size(year1conjunto, 1);  % number observations
-n_vars = size(year1conjunto, 2);     % number of variables
-max_degree  = 2;     % order of polynomial
+n_obs  = size(year1conjunto, 1); 
+n_vars = size(year1conjunto, 2);     
+max_degree  = 2;     
 
-X = year1conjunto;  % generate random, strictly positive data
+X = year1conjunto; 
 
-stacked = zeros(0, n_vars); %this will collect all the coefficients...    
-for d = 1:max_degree          % for degree 1 polynomial to degree 'order'
+stacked = zeros(0, n_vars);
+for d = 1:max_degree          
     stacked = [stacked; atributosPolinomiais(n_vars, d)];
 end
 
