@@ -1,52 +1,33 @@
-% Funcao roda o knn para todos os Ks em 'testes'. A funcao aceita 2 ou 3
-% conjuntos, se forem 2 conjuntos, conjuntoVal e rotuloVal tem que ser
-% igual a 0, sendo que isso fara com que a funcao nao rode considerando o
-% conjunto de validacao, logo 'knnsVal' sera 0;
-%
-function [knnsTeste, knnsVal] = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, conjuntoVal)
-    testes = [1 3 5 7 9 11 13 15 17 19 21 23 25]; 
+% Funcao roda o knn com K ate o K fornecido, ou seja, se for fornecido k =
+% 11, os testes feitos serao com k = 1,3,5,7,9,11. O retorno sera um cell
+% contendo o resultado do KNN, ou seja, dado o exemplo, teriamos no indice
+% 1 do cell array os resultados do k = 1, e assim por diante.
+function knnsTeste = rodaKNN(conjuntoTreino, rotulosTreino, conjuntoTeste, k)
+    addpath('./KNN/');
+    testes = 1:2:k;
     knnsTeste = cell(length(testes));
-    if(length(conjuntoVal) == 1)
-        knnsVal = 0;
-    else
-        knnsVal = cell(length(testes));
-    end
     count = 1;
     % Faco a classificacao do conjunto de testes.
-    disp('Inicio da classificacao usando KNN no conjunto de testes.')
-    for i = 1:length(testes)
-        fprintf('Inicio do calculo com K = %d.\n', testes(i));
-        classes = zeros(length(conjuntoTeste), 1);
-        indices = zeros(length(conjuntoTeste), testes(i));
-        tic;
-        for j = 1:length(conjuntoTeste)
-            [classe, indice] = knn(conjuntoTeste(j, :), conjuntoTreino, rotulosTreino, testes(i));
-            classes(j, 1) = classe;
-            indices(j, :) = indice;
-        end
-        toc;
-        fprintf('Termino do calculo com K = %d.\n', testes(i));
-        knnsTeste{count} = [classes indices];
-        count = count + 1;
+    fprintf('Inicio da classificacao KNN com Ks = ');
+    fprintf('%d, ', testes);
+    fprintf('\n');
+    indices = zeros(length(conjuntoTeste), k);
+    tic;
+    for i = 1:length(conjuntoTeste)
+        [~, indice] = knn(conjuntoTeste(i, :), conjuntoTreino, rotulosTreino, k);
+        indices(i, :) = indice;
     end
-    % Se for fornecido, faz os testes com o conjunto de validacao.
-    if(length(conjuntoVal) > 1)
-        count = 1;
-        disp('Inicio da classificacao usando KNN no conjunto de validacao.')
-        for i = 1:length(testes)
-            fprintf('Inicio do calculo com K = %d.\n', testes(i));
-            classes = zeros(length(conjuntoVal), 1);
-            indices = zeros(length(conjuntoVal), testes(i));
-            tic;
-            for j = 1:length(conjuntoVal)
-                [classe, indice] = knn(conjuntoVal(j, :), conjuntoTreino, rotulosTreino, testes(i));
-                classes(j, 1) = classe;
-                indices(j, :) = indice;
-            end
-            toc;
-            fprintf('Termino do calculo com K = %d.\n', testes(i));
-            knnsVal{count} = [classes indices];
-            count = count + 1;
+    toc;
+    disp('Termino da classificacao KNN.');
+    
+    for i = testes
+        ind_temp = indices(:, 1:i);
+        tam = size(ind_temp, 1);
+        classe = zeros(tam, 1);
+        for j = 1:tam
+            classe(j, 1) = mode(rotulosTreino(ind_temp(j, 1:i)));
         end
+        knnsTeste{count} = classe;
+        count = count + 1;
     end
 end

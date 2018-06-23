@@ -4,7 +4,7 @@
 % de m, do segundo indice tera 10% e do terceiro indice tera 80%. 
 function divMat = divideMatriz(m, p)
     % As porcentagens em p tem que ser igual a 100%.
-    assert(sum(p) <= 1);
+    assert(sum(p) < 1);
     divMat = cell(length(p));
     tam = size(m, 1);
     % Para cada porcentagem em p tenho que cortar m.

@@ -1,7 +1,7 @@
-function pred = rodaRedeNeural(conjuntoTreino, rotulosTreino, conjuntoTeste, rotuloTeste)
+function [pred, Theta] = rodaRedeNeural(conjuntoTreino, rotulosTreino, conjuntoTeste, rotuloTeste, tamCamadaHidden, lambda)
     addpath('./RedeNeural/');
     % Variaveis definindo a quantidade de neuronios de cada camada.
-    tamCamada = [64, 25, 1];
+    tamCamada = [size(conjuntoTreino, 2), tamCamadaHidden, 1];
     numCamadas = length(tamCamada);
     % O primeiro peso deve mapear a camada de entrada para a primeira
     % camada hidden, logo deve ter 65x10, considerando o bias.
@@ -17,10 +17,9 @@ function pred = rodaRedeNeural(conjuntoTreino, rotulosTreino, conjuntoTeste, rot
         paramIniciais = [paramIniciais; thetaHidden{i}(:)];
     end
     % Utilizo 50 iteracoes de treino.sum()
-    opcoes = optimset('MaxIter', 1000, 'Display', 'iter-detailed');
-    lambda = 0.1;
+    opcoes = optimset('MaxIter', 2000, 'Display', 'iter-detailed');
     funcaoCusto = @(p) rnaCusto(p, conjuntoTreino, rotulosTreino, lambda, tamCamada);
-    [rna_params, cost] = fmincg(funcaoCusto, paramIniciais, opcoes);
+    [rna_params, ~] = fmincg(funcaoCusto, paramIniciais, opcoes);
     
     Theta = cell(1, length(tamCamada) - 1);
     indIni = 1;

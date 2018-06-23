@@ -1,0 +1,9 @@
+function [pred, acc, prob] = rodaSVM(c, t, g, w0, w1, ...
+        conjuntoTreino, rotulosTreino, conjuntoTeste, rotulosTeste)
+    
+    addpath('./SVM');
+    model = svmtrain(conjuntoTreino, rotulosTreino, mat2str(['-c ', num2str(c), ' -t ', ...
+        num2str(t), ' -g ', num2str(g), ' -b 0 -h 0 -w0 ', ...
+        num2str(w0), ' -w1 ', num2str(w1)]));
+    [pred, acc, prob] = svmpredict(conjuntoTeste, rotulosTeste, model, '-b 0');
+end
