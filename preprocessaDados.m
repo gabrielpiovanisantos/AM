@@ -34,8 +34,10 @@ function [D, D2] = preprocessaDados(D, aNorm, aKnn, aReg)
                 X(indTeste(j), i) = predicao;
             end
         end
+        disp('Termino do KNN para a imputacao inicial dos dados.');
     end
     if(aNorm == 1)
+        disp('Inico da normalizacao por padronizacao.');
         % Normalizo X.
         [X, ~, ~] = normalizar(X);
     end
@@ -46,6 +48,7 @@ function [D, D2] = preprocessaDados(D, aNorm, aKnn, aReg)
     % faltantes sejam previstos, visando eliminar resultados repetidos
     % obtidos no KNN.
     if(aReg == 1)
+        disp('Inicio da reg. linear multivariavel para a imputacao de dados.');
         for i = 1:size(X, 2)
             % Pego os indices dos elementos que possuem atributo faltante nesta
             % coluna.
@@ -85,6 +88,7 @@ function [D, D2] = preprocessaDados(D, aNorm, aKnn, aReg)
                 X(indTeste(j), i) = predicao;
             end
         end
+        disp('Termino da reg. linear multivariavel para a imputacao de dados.');
     end
     % Atualizo a base de dados com a base normalizada e completa.
     D = X;
