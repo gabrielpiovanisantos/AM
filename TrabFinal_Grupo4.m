@@ -12,6 +12,12 @@ rRna = 1;
 rSVM = 1;
 rRegLog = 1;
 
+% Variaveis que dizem quais preprocessamentos serao aplicados no conjunto
+% de dados.
+aNorm = 1; % Flag para normalizar os dados
+aKnn = 1; % Flag para o KNN de imputacao
+aReg = 1; % Flag para a reg. linear de imputacao
+
 if(carregaArq == 0)
     year1 = readData('1year.arff');
     year2 = readData('2year.arff');
@@ -38,15 +44,15 @@ year5rotulos = year5(:, 65);
 year5(:, 65) = [];
  
 disp('Processando conjunto ano 1.');
-[year1conjunto, year1AposNorm] = preprocessaDados(year1);
+[year1conjunto, year1AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 disp('Processando conjunto ano 2.');
-[year2conjunto, year2AposNorm] = preprocessaDados(year2);
+[year2conjunto, year2AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 disp('Processando conjunto ano 3.');
-[year3conjunto, year3AposNorm] = preprocessaDados(year3);
+[year3conjunto, year3AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 disp('Processando conjunto ano 4.');
-[year4conjunto, year4AposNorm] = preprocessaDados(year4);
+[year4conjunto, year4AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 disp('Processando conjunto ano 5.');
-[year5conjunto, year5AposNorm] = preprocessaDados(year5);
+[year5conjunto, year5AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 
 realizaTestes(year1conjunto, year1rotulos, rKnn, rRna, rSVM, rRegLog);
 realizaTestes(year2conjunto, year2rotulos, rKnn, rRna, rSVM, rRegLog);
