@@ -131,54 +131,54 @@ function realizaTestes(conjuntoDados, rotulos, rKnn, rRna, rSvm, rRegLog)
             end
             % Testo uma rede neural com uma camada e metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, 32, 1);
+                conjuntoTeste, rotulosTeste, 32, 1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(1, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com uma camada e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, 64, 1);
+                conjuntoTeste, rotulosTeste, 64, 1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(2, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com duas camadas e metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [32 32], 0.1);
+                conjuntoTeste, rotulosTeste, [32 32], 0.1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(3, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com duas camadas e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [64 64], 0.1);
+                conjuntoTeste, rotulosTeste, [64 64], 0.1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(4, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com tres camadas e metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [32 32 32], 0.01);
+                conjuntoTeste, rotulosTeste, [32 32 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(5, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com tres camadas e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [64 64 64], 0.01);
+                conjuntoTeste, rotulosTeste, [64 64 64], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(6, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com tres camadas, todas com tamanho
             % diferente
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [128 64 32], 0.01);
+                conjuntoTeste, rotulosTeste, [128 64 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(7, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com tres camadas, duas com todos os
             % neuronios e a ultima com metade
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [64 64 32], 0.01);
+                conjuntoTeste, rotulosTeste, [64 64 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(8, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com 4 camadas com metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [32 32 32 32], 0.00001);
+                conjuntoTeste, rotulosTeste, [32 32 32 32], 0.00001);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(9, :, k) = [acu, fmedidaPos, fmedidaNeg];
             % Testo uma rede neural com 4 camadas com todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
-                conjuntoTeste, rotuloTeste, [64 64 64 64], 0.00001);
+                conjuntoTeste, rotulosTeste, [64 64 64 64], 0.00001);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(10, :, k) = [acu, fmedidaPos, fmedidaNeg];
         end
