@@ -40,6 +40,7 @@ function [D, D2] = preprocessaDados(D, aNorm, aKnn, aReg)
         disp('Inico da normalizacao por padronizacao.');
         % Normalizo X.
         [X, ~, ~] = normalizar(X);
+        disp('Termino da normalizacao por padronizacao.');
     end
     D2 = X;
     % Realizo uma regressao multivariavel para cada coluna, onde a base
