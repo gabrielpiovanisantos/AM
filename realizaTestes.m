@@ -134,53 +134,63 @@ function realizaTestes(conjuntoDados, rotulos, rKnn, rRna, rSvm, rRegLog)
                 conjuntoTeste, rotulosTeste, 32, 1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(1, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com uma camada e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, 64, 1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(2, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com duas camadas e metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [32 32], 0.1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(3, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com duas camadas e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [64 64], 0.1);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(4, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com tres camadas e metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [32 32 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(5, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com tres camadas e todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [64 64 64], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(6, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com tres camadas, todas com tamanho
             % diferente
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [128 64 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(7, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com tres camadas, duas com todos os
             % neuronios e a ultima com metade
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [64 64 32], 0.01);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(8, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com 4 camadas com metade dos neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [32 32 32 32], 0.00001);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(9, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
             % Testo uma rede neural com 4 camadas com todos os neuronios
             [pred, ~] = rodaRedeNeural(conjuntoTreino, rotulosTreino, ...
                 conjuntoTeste, rotulosTeste, [64 64 64 64], 0.00001);
             [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(pred, rotulosTeste);
             resultado_rna(10, :, k) = [acu, fmedidaPos, fmedidaNeg];
+            save('rna.mat', 'resultado_rna');
         end
 
         % Agora calculo a media dos ks do k-fold e o desvio padrao
@@ -277,7 +287,7 @@ function realizaTestes(conjuntoDados, rotulos, rKnn, rRna, rSvm, rRegLog)
         mediaSvm = mean(resultado_svm, 3);
         dsvpSvm = std(resultado_svm, [], 3);
         % Exibo os resultados obtidos.
-        for i = 1:num_redes
+        for i = 1:num_svms
             fprintf('Resultado do SVM %d:', i);
             fprintf('\tMedia: F-Medida(Pos: %f Neg: %f) Acuracia: %f\n', ...
                 mediaSvm(i, 2), mediaSvm(i, 3), mediaSvm(i, 1));
