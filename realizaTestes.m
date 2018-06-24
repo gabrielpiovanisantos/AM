@@ -285,4 +285,43 @@ function realizaTestes(conjuntoDados, rotulos, rKnn, rRna, rSvm, rRegLog)
                 dsvpSvm(i, 2), dsvpSvm(i, 3), dsvpSvm(i, 1));
         end
     end
+    
+    if(rRegLog == 1)
+        for i = 1:k
+            fprintf('Realizando a Regressão Logística no subconjunto k = %d.\n', i);
+            conjuntoTeste = conjunto{i};
+            rotulosTeste = rotulos{i};
+            conjuntoTreino = 0;
+            rotulosTreino = 0;
+            lambda = 1;
+
+            for j = 1:k
+                if(j ~= i)
+                    if(conjuntoTreino == 0)
+                        conjuntoTreino = conjunto{j};
+                        rotulosTreino = rotulos{j};
+                    else
+                        conjuntoTreino = [conjuntoTreino; conjunto{j}];
+                        rotulosTreino = [rotulosTreino; rotulos{j}];
+                    end
+                end
+            end
+            
+            predicoes = rodaRegLog(conjuntoTreino, rotulosTreino, conjuntoTeste, lambda);
+            [acu, ~, fmedidaPos, fmedidaNeg] = calculaMetricas(predicoes, rotulosTeste);
+            resultado_reglog(i, :, k) = [acu, fmedidaPos, fmedidaNeg];
+        end
+        
+        % Agora calculo a media dos ks do k-fold e o desvio padrao do svm
+        mediaRegLog = mean(resultado_reglog, 3);
+        dsvpRegLog = std(resultado_reglog, [], 3);
+        % Exibo os resultados obtidos.
+        for i = 1:k
+            fprintf('Resultado da Regressão Logística %d:', i);
+            fprintf('\tMedia: F-Medida(Pos: %f Neg: %f) Acuracia: %f\n', ...
+                mediaRegLog(i, 2), mediaRegLog(i, 3), mediaRegLog(i, 1));
+            fprintf('\tDesvio Padrao: F-Medida(Pos: %f Neg: %f) Acuracia: %f\n', ...
+                dsvpRegLog(i, 2), dsvpRegLog(i, 3), dsvpRegLog(i, 1));
+        end
+    end
 end

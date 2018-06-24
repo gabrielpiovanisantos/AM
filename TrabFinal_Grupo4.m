@@ -8,9 +8,9 @@ carregaArq = 2;
 % Variaveis que dizem quais testes serao rodados. Utilizado caso
 % queira testar apenas um tipo de classificador ao rodar os testes. Se tudo
 % for 1, ira testar todos os algoritmos.
-rKnn = 1;
-rRna = 1;
-rSVM = 1;
+rKnn = 0;
+rRna = 0;
+rSVM = 0;
 rRegLog = 1;
 
 % Variaveis que dizem quais preprocessamentos serao aplicados no conjunto
