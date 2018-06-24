@@ -5,6 +5,9 @@ clear; close all; clc;
 % carrega os dados preprocessados e nao realiza nenhum preprocessamento.
 carregaArq = 2;
 
+% Salvo o output da janela de comandos em output.txt
+diary('output.txt');
+
 % Variaveis que dizem quais testes serao rodados. Utilizado caso
 % queira testar apenas um tipo de classificador ao rodar os testes. Se tudo
 % for 1, ira testar todos os algoritmos.
@@ -63,8 +66,15 @@ if(carregaArq < 2)
     [year5conjunto, year5AposNorm] = preprocessaDados(year1, aNorm, aKnn, aReg);
 end
 
+disp('Realizando testes no conjunto do ano 1.')
 realizaTestes(year1conjunto, year1rotulos, rKnn, rRna, rSVM, rRegLog);
+disp('Realizando testes no conjunto do ano 2.')
 realizaTestes(year2conjunto, year2rotulos, rKnn, rRna, rSVM, rRegLog);
+disp('Realizando testes no conjunto do ano 3.')
 realizaTestes(year3conjunto, year3rotulos, rKnn, rRna, rSVM, rRegLog);
+disp('Realizando testes no conjunto do ano 4.')
 realizaTestes(year4conjunto, year4rotulos, rKnn, rRna, rSVM, rRegLog);
+disp('Realizando testes no conjunto do ano 5.')
 realizaTestes(year5conjunto, year5rotulos, rKnn, rRna, rSVM, rRegLog);
+
+diary off;
